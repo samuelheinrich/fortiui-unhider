@@ -1,0 +1,20 @@
+{
+  "name": "fortiui-unhider",
+  "version": "1.0.0",
+  "description": "A FortiGate WebUI bookmarklet that reveals hidden or scattered read-only configuration and runtime data.",
+  "private": false,
+  "scripts": {
+    "build": "node scripts/make-bookmarklet.js src/fortiui-unhider.js dist/fortiui-unhider.bookmarklet.txt",
+    "test": "node --check src/fortiui-unhider.js && node --check scripts/make-bookmarklet.js && node -e \"const fs=require('fs'),vm=require('vm');const s=fs.readFileSync('dist/fortiui-unhider.bookmarklet.txt','utf8').trim();if(!s.startsWith('javascript:'))throw new Error('missing javascript prefix');new vm.Script(s.slice('javascript:'.length));\""
+  },
+  "keywords": [
+    "fortigate",
+    "fortios",
+    "fortinet",
+    "bookmarklet",
+    "webui",
+    "networking"
+  ],
+  "author": "Samuel Heinrich",
+  "license": "UNLICENSED"
+}
