@@ -1,11 +1,14 @@
-(async function fortiUiUnhider() {
+(async function fortiUiToolsIntegratedPoc() {
   const ids = {
     menu: "fortiui-unhider-menu",
     submenu: "fortiui-unhider-submenu",
     app: "fortiui-unhider-app",
     style: "fortiui-unhider-style",
+    policyPanel: "fortiui-unhider-policy-panel",
   };
-  const version = "1.0.0";
+  const version = "1.1.0";
+
+  window.__fortiuiUnhider?.cleanup?.();
 
   const previousApp = document.getElementById(ids.app);
   if (previousApp?.parentElement) {
@@ -189,6 +192,215 @@
       color: #666;
       font-size: 11px;
     }
+    #fortiui-unhider-app .fui-policy-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin: 0 0 8px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+    #fortiui-unhider-app .fui-policy-toolbar input[type="search"] {
+      flex: 1 1 360px;
+      padding: 6px 8px;
+      border: 1px solid #999;
+      font-size: 13px;
+    }
+    #fortiui-unhider-app .fui-policy-toolbar select { max-width: 220px; padding: 4px; }
+    #fortiui-unhider-app .fui-policy-toolbar + .fui-meta { margin-bottom: 8px; }
+    #fortiui-unhider-app .fui-segmented { display: inline-flex; }
+    #fortiui-unhider-app .fui-segmented button + button { border-left: 0; }
+    #fortiui-unhider-app .fui-segmented button[data-active="true"] {
+      color: #fff;
+      background: #499258;
+      border-color: #3d7a4a;
+    }
+    #fortiui-unhider-app tr.fui-policy-hidden-changes > td:first-child { box-shadow: inset 4px 0 0 #c62828; }
+    #fortiui-unhider-app .fui-hidden-changes {
+      margin-bottom: 4px;
+      padding: 3px 6px;
+      color: #8b0000;
+      background: #ffd3cf;
+      border: 1px solid #e58f88;
+      border-radius: 2px;
+      font: 700 11px/1.35 Menlo, Consolas, monospace;
+      white-space: pre-wrap;
+    }
+    #fortiui-unhider-app .fui-nondefault-toggle {
+      padding: 4px 8px;
+      color: #8b0000;
+      background: #fff0ee;
+      border: 1px solid #e58f88;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    #fortiui-unhider-app .fui-nondefault-toggle:has(input:checked) { color: #fff; background: #c62828; border-color: #a01f1f; }
+    #fortiui-unhider-app .fui-pair-hidden-count {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 0 7px;
+      color: #fff;
+      background: #c62828;
+      border-radius: 9px;
+      font-size: 11px;
+    }
+    #fortiui-unhider-app tr.fui-pair-header td {
+      color: #1d3550;
+      background: #e3ebf3;
+      border-top: 2px solid #9db3c8;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+    #fortiui-unhider-app tr.fui-pair-header:hover td { background: #d5e1ec; }
+    #fortiui-unhider-app .fui-pair-caret {
+      display: inline-block;
+      width: 16px;
+      transform: rotate(90deg);
+      transition: transform .12s ease;
+    }
+    #fortiui-unhider-app tr.fui-pair-header[data-collapsed="true"] .fui-pair-caret { transform: none; }
+    #fortiui-unhider-app .fui-pair-count {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 0 7px;
+      color: #fff;
+      background: #6b85a0;
+      border-radius: 9px;
+      font-size: 11px;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) mark.fui-hit {
+      padding: 0 1px;
+      color: inherit;
+      background: #ffe14d;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px #e0b800;
+    }
+    #fortiui-unhider-policy-panel {
+      clear: both;
+      margin: 16px 0;
+      padding: 10px 12px;
+      color: #222;
+      background: #fffbe0;
+      border: 1px solid #e3c34a;
+      border-left: 4px solid #d6a600;
+      font: 12px/1.4 Arial, Helvetica, sans-serif;
+      text-align: left;
+    }
+    #fortiui-unhider-policy-panel.fui-floating {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 10000;
+      width: 680px;
+      max-height: 70vh;
+      overflow: auto;
+      margin: 0;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+    }
+    #fortiui-unhider-policy-panel > details > summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    #fortiui-unhider-policy-panel button {
+      padding: 3px 9px;
+      border: 1px solid #999;
+      background: #fff;
+      cursor: pointer;
+    }
+    #fortiui-unhider-policy-panel .fui-policy-panel-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+      color: #666;
+    }
+    #fortiui-unhider-policy-panel .fui-error {
+      padding: 10px;
+      color: #b00020;
+      white-space: pre-wrap;
+      background: #fff2f2;
+      border: 1px solid #e2a4a4;
+    }
+    #fortiui-unhider-policy-panel .fui-cli summary { cursor: pointer; color: #005b9f; }
+    #fortiui-unhider-policy-panel .fui-cli pre {
+      max-height: 320px;
+      overflow: auto;
+      margin: 8px 0 0;
+      padding: 8px;
+      color: #f5f5f5;
+      background: #050505;
+      border: 1px solid #333;
+      font: 11px/1.35 Consolas, Menlo, Monaco, "Courier New", monospace;
+      white-space: pre-wrap;
+    }
+    #fortiui-unhider-policy-panel .fui-cli .fui-cli-note { margin-top: 6px; color: #666; font-size: 11px; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-toolbar input[type="search"] {
+      min-width: 220px;
+      padding: 4px 6px;
+      border: 1px solid #bbb;
+      background: #fff;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-count,
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-note { color: #666; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-scroll {
+      max-height: 560px;
+      overflow: auto;
+      border: 1px solid #ddd;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) table.fui-options-table {
+      width: auto;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table th,
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table td {
+      padding: 2px 8px;
+      border: 1px solid #e4e4e4;
+      font: 11px/1.35 Menlo, Consolas, monospace;
+      white-space: pre-wrap;
+      vertical-align: top;
+      text-align: left;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table th {
+      position: sticky;
+      top: 0;
+      color: #fff;
+      background: #5a5a5a;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table tr.fui-opt-changed td {
+      background: #fff1a8;
+      font-weight: 700;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table tr.fui-opt-hidden-changed td {
+      color: #8b0000;
+      background: #ffd3cf;
+      font-weight: 700;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table td.fui-opt-gui { color: #888; font-weight: 400; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-legend { margin: 0 0 6px; color: #666; white-space: pre; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-legend span {
+      padding: 0 6px;
+      border-radius: 2px;
+      font-weight: 700;
+    }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-legend-hidden { color: #8b0000; background: #ffd3cf; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-legend-changed { color: #222; background: #fff1a8; }
+    :is(#fortiui-unhider-app, #fortiui-unhider-policy-panel) .fui-options-table td.fui-opt-default {
+      color: #888;
+      font-weight: 400;
+    }
   `;
   document.head.appendChild(style);
 
@@ -330,22 +542,194 @@
     note ? el("div", { className: "fui-cli-note", textContent: note }) : null,
   ]);
   const cliCommands = (...commands) => cliDetails(commands.filter(Boolean).join("\n"), "CLI command reference; run manually if live output is needed.");
+  const lazyDetails = (label, build) => {
+    const details = el("details", {}, el("summary", { textContent: label }));
+    details.addEventListener("toggle", () => {
+      if (details.open && details.childElementCount === 1) details.appendChild(build());
+    });
+    return details;
+  };
+  const optionSkip = new Set(["q_origin_key", "uuid-idx", "datasource", "css-class"]);
+  const optionText = (input) => {
+    if (input === undefined || input === null) return "";
+    if (Array.isArray(input)) {
+      return input.map((item) => `"${item && typeof item === "object" ? firstValue(item.name, item.q_origin_key, JSON.stringify(item)) : item}"`).join(" ");
+    }
+    if (typeof input === "object") return JSON.stringify(maskSecrets(input));
+    return String(input);
+  };
+  const parseQuery = (input) => Array.from(String(input || "").toLowerCase().matchAll(/"([^"]*)"|(\S+)/g))
+    .map((match) => {
+      if (match[1] !== undefined) return { value: match[1] };
+      const index = match[2].indexOf("=");
+      return index > 0 ? { key: match[2].slice(0, index), value: match[2].slice(index + 1) } : { value: match[2] };
+    })
+    .filter((term) => term.key || term.value);
+  const termMatches = (term, key, text, matchKeys = true) => {
+    if (term.key) return key === term.key && text.includes(term.value);
+    return text.includes(term.value) || (matchKeys && key.includes(term.value));
+  };
+  const queryWords = (terms) => terms.map((term) => term.value).filter(Boolean);
+  const escapeRegExp = (input) => input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const highlight = (root, words, skip = "") => {
+    const allowed = (node) => {
+      const blocked = skip ? node.parentElement.closest(skip) : null;
+      return !blocked || blocked === root || !root.contains(blocked);
+    };
+    root.querySelectorAll("mark.fui-hit").forEach((mark) => {
+      if (allowed(mark)) mark.replaceWith(document.createTextNode(mark.textContent));
+    });
+    root.normalize();
+    if (!words.length) return;
+
+    const pattern = new RegExp([...new Set(words)].sort((a, b) => b.length - a.length).map(escapeRegExp).join("|"), "gi");
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) if (allowed(walker.currentNode)) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const text = node.nodeValue;
+      const matches = Array.from(text.matchAll(pattern));
+      if (!matches.length) continue;
+
+      const fragment = document.createDocumentFragment();
+      let last = 0;
+      for (const match of matches) {
+        if (match.index > last) fragment.append(text.slice(last, match.index));
+        fragment.append(el("mark", { className: "fui-hit", textContent: match[0] }));
+        last = match.index + match[0].length;
+      }
+      fragment.append(text.slice(last));
+      node.replaceWith(fragment);
+    }
+  };
+  const policyMetaCache = new Map();
+  const policyMeta = (vdom) => {
+    if (!policyMetaCache.has(vdom)) {
+      const query = `vdom=${encodeURIComponent(vdom)}`;
+      policyMetaCache.set(vdom, Promise.all([
+        fetchJsonOptional(`/api/v2/cmdb/firewall/policy?action=default&${query}`),
+        fetchJsonOptional(`/api/v2/cmdb/firewall/policy?action=schema&${query}`),
+      ]).then(([defaultData, schemaData]) => {
+        const schemaResults = Array.isArray(schemaData.results) ? schemaData.results[0] : schemaData.results;
+        const children = schemaResults?.children || {};
+        const defaultResults = Array.isArray(defaultData.results) ? defaultData.results[0] : defaultData.results;
+        const defaults = {};
+        const help = {};
+        for (const [key, child] of Object.entries(children)) {
+          if (child && "default" in child) defaults[key] = child.default;
+          if (child?.help) help[key] = child.help;
+        }
+        Object.assign(defaults, defaultResults && typeof defaultResults === "object" ? defaultResults : {});
+        return { defaults, help };
+      }).catch(() => ({ defaults: {}, help: {} })));
+    }
+    return policyMetaCache.get(vdom);
+  };
+  const policyGuiFields = new Set([
+    "policyid", "uuid", "name", "status", "comments", "action", "schedule",
+    "srcintf", "dstintf", "srcaddr", "dstaddr", "srcaddr6", "dstaddr6",
+    "srcaddr-negate", "dstaddr-negate", "srcaddr6-negate", "dstaddr6-negate", "service", "service-negate",
+    "internet-service", "internet-service-name", "internet-service-group", "internet-service-custom", "internet-service-custom-group", "internet-service-negate",
+    "internet-service-src", "internet-service-src-name", "internet-service-src-group", "internet-service-src-custom", "internet-service-src-custom-group", "internet-service-src-negate",
+    "internet-service6", "internet-service6-name", "internet-service6-group", "internet-service6-custom", "internet-service6-custom-group", "internet-service6-negate",
+    "internet-service6-src", "internet-service6-src-name", "internet-service6-src-group", "internet-service6-src-custom", "internet-service6-src-custom-group", "internet-service6-src-negate",
+    "users", "groups", "fsso-groups", "ztna-status", "ztna-ems-tag", "ztna-geo-tag", "ztna-tags-match-logic",
+    "nat", "nat46", "nat64", "ippool", "poolname", "poolname6", "fixedport", "vpntunnel", "inbound", "outbound",
+    "inspection-mode", "utm-status", "profile-type", "profile-group", "profile-protocol-options", "ssl-ssh-profile",
+    "av-profile", "webfilter-profile", "dnsfilter-profile", "emailfilter-profile", "dlp-profile", "dlp-sensor", "file-filter-profile",
+    "ips-sensor", "application-list", "voip-profile", "icap-profile", "waf-profile", "videofilter-profile", "ssh-filter-profile",
+    "cifs-profile", "casb-profile", "virtual-patch-profile",
+    "logtraffic", "logtraffic-start", "capture-packet",
+  ]);
+  const policyOptionRows = (policy, meta) => Object.entries(policy || {})
+    .filter(([key]) => !optionSkip.has(key))
+    .map(([key, raw]) => {
+      const secret = /secret|passwd|password|psk|ddns-key/i.test(key);
+      const text = secret ? "[hidden]" : optionText(raw);
+      const known = Object.prototype.hasOwnProperty.call(meta.defaults, key);
+      const defaultText = known ? optionText(meta.defaults[key]) : null;
+      const changed = known && !secret && text !== defaultText;
+      const gui = policyGuiFields.has(key);
+      return { key, raw, text, defaultText, changed, gui, hiddenChanged: changed && !gui };
+    });
+  const policyOptionsView = (policy, meta, initialFilter = "") => {
+    const hasDefaults = Object.keys(meta.defaults).length > 0;
+    const rows = policyOptionRows(policy, meta);
+    const changedCount = rows.filter((row) => row.changed).length;
+    const hiddenChangedCount = rows.filter((row) => row.hiddenChanged).length;
+    const filter = el("input", {
+      type: "search",
+      placeholder: "Filter options or values (key=value supported)...",
+      value: initialFilter,
+      oninput: () => apply(),
+      onkeydown: (event) => {
+        event.stopPropagation();
+        if (event.key === "Enter") event.preventDefault();
+      },
+    });
+    const onlyChanged = el("input", { type: "checkbox", onchange: () => apply() });
+    const count = el("span", { className: "fui-options-count" });
+    const tbody = el("tbody", {}, rows.map((row) => {
+      row.tr = el("tr", { className: row.hiddenChanged ? "fui-opt-hidden-changed" : row.changed ? "fui-opt-changed" : "" }, [
+        el("td", { title: meta.help[row.key] || "", textContent: row.key }),
+        el("td", { textContent: row.text }),
+        el("td", { className: "fui-opt-default", textContent: row.defaultText ?? "?" }),
+        el("td", { className: "fui-opt-gui", textContent: row.gui ? "GUI" : "CLI only" }),
+      ]);
+      return row.tr;
+    }));
+    function apply() {
+      const terms = parseQuery(filter.value);
+      const words = queryWords(terms);
+      let shown = 0;
+      for (const row of rows) {
+        const visible = (!onlyChanged.checked || row.changed) && (!terms.length || terms.some((term) => termMatches(term, row.key, row.text.toLowerCase())));
+        row.tr.style.display = visible ? "" : "none";
+        if (visible) {
+          shown += 1;
+          highlight(row.tr, words);
+        }
+      }
+      count.textContent = `${shown} of ${rows.length} options shown${hasDefaults ? `, ${changedCount} differ from default, ${hiddenChangedCount} of them CLI only` : ""}`;
+    }
+    apply();
+
+    const getText = rows.map((row) => `${row.key.padEnd(20)}: ${row.text}`).join("\n");
+    const showRow = Object.fromEntries(rows.filter((row) => row.changed).map((row) => [row.key, row.raw]));
+
+    return el("div", { className: "fui-options" }, [
+      el("div", { className: "fui-options-toolbar" }, [
+        filter,
+        el("label", {}, [onlyChanged, " Only non-default"]),
+        count,
+      ]),
+      hasDefaults ? el("div", { className: "fui-options-legend" }, [
+        el("span", { className: "fui-legend-hidden", textContent: "red" }), " non-default, not visible in the FortiGate GUI (CLI only)   ",
+        el("span", { className: "fui-legend-changed", textContent: "yellow" }), " non-default, visible in the GUI",
+      ]) : null,
+      hasDefaults ? null : el("div", { className: "fui-options-note", textContent: "Default values are unavailable on this FortiOS build; non-default highlighting is disabled." }),
+      el("div", { className: "fui-options-scroll" }, el("table", { className: "fui-options-table" }, [
+        el("thead", {}, el("tr", {}, [el("th", { textContent: "Option" }), el("th", { textContent: "Value" }), el("th", { textContent: "Default" }), el("th", { textContent: "GUI" })])),
+        tbody,
+      ])),
+      cliDetails([
+        "# get (all options)",
+        getText,
+        ...(hasDefaults ? ["\n# show (non-default options)", cliConfig("firewall policy", policy.policyid, showRow, { skip: ["policyid"] })] : []),
+      ], "Generated from saved API data; unsaved changes in the edit dialog are not included."),
+    ]);
+  };
+  const tableRow = (row, columns) => el("tr", {}, columns.map((column) => {
+    const content = column.render ? column.render(row) : row[column.key];
+    return el("td", {}, content instanceof Node ? content : document.createTextNode(value(content)));
+  }));
   const table = (rows, columns, emptyText = "No entries found.") => {
     if (!rows.length) return el("div", { className: "fui-empty", textContent: emptyText });
 
     const thead = el("thead", {}, el("tr", {}, columns.map((column) => el("th", { textContent: column.label }))));
     const tbody = el("tbody");
 
-    for (const row of rows) {
-      const tr = el("tr");
-      for (const column of columns) {
-        const td = el("td");
-        const content = column.render ? column.render(row) : row[column.key];
-        td.appendChild(content instanceof Node ? content : document.createTextNode(value(content)));
-        tr.appendChild(td);
-      }
-      tbody.appendChild(tr);
-    }
+    for (const row of rows) tbody.appendChild(tableRow(row, columns));
 
     return el("table", {}, [thead, tbody]);
   };
@@ -366,6 +750,7 @@
   };
 
   let currentTool = null;
+  const policyViewState = { query: "", view: "list", srcintf: "", dstintf: "", nonDefault: false, collapsed: new Set() };
 
   function restoreOriginalUi() {
     const app = document.getElementById(ids.app);
@@ -849,11 +1234,18 @@
       id: "firewall-policy",
       label: "Firewall Policy",
       render: async (page) => {
-        const policyData = await fetchJson(vdomUrl("/api/v2/cmdb/firewall/policy?datasource=1"));
+        const [policyData, meta] = await Promise.all([
+          fetchJson(vdomUrl("/api/v2/cmdb/firewall/policy?datasource=1")),
+          policyMeta(getVdom()),
+        ]);
         const rows = policyData.results || [];
-
-        page.appendChild(el("div", { className: "fui-meta", textContent: `${rows.length} firewall policies` }));
-        page.appendChild(table(rows, [
+        const state = policyViewState;
+        const optionSummaries = new Map();
+        const visibleKeys = new Set(["policyid", "status", "name", "srcintf", "dstintf", "srcaddr", "dstaddr", "service", "schedule", "action", "nat", "logtraffic", "comments"]);
+        const intfNames = (input) => names(input).split("\n").filter((name) => name !== "-");
+        const hiddenChangesByRow = new Map(rows.map((row) => [row, policyOptionRows(row, meta).filter((option) => option.hiddenChanged)]));
+        const hasDefaults = Object.keys(meta.defaults).length > 0;
+        const columns = [
           { label: "ID", key: "policyid" },
           { label: "Status", render: (row) => enabled(row.status) },
           { label: "Name", key: "name" },
@@ -867,9 +1259,194 @@
           { label: "NAT", key: "nat" },
           { label: "Log", key: "logtraffic" },
           { label: "Comments", key: "comments" },
+          { label: "All Options", render: (row) => {
+            const details = lazyDetails("Show all options", () => policyOptionsView(row, meta, state.query));
+            optionSummaries.set(row, details.firstChild);
+            const hiddenChanges = hiddenChangesByRow.get(row);
+            if (!hiddenChanges.length) return details;
+            return el("div", {}, [
+              el("div", {
+                className: "fui-hidden-changes",
+                title: "Non-default values of options that are not visible in the FortiGate GUI",
+              }, hiddenChanges.map((option) => el("div", { textContent: `${option.key}: ${option.text}` }))),
+              details,
+            ]);
+          } },
           { label: "CLI", render: (row) => cliDetails(cliConfig("firewall policy", row.policyid, row)) },
           { label: "Raw", render: rawDetails },
-        ], "No firewall policies found."));
+        ];
+
+        if (!rows.length) {
+          page.appendChild(table(rows, columns, "No firewall policies found."));
+          return;
+        }
+
+        const entries = rows.map((row) => {
+          const src = intfNames(row.srcintf);
+          const dst = intfNames(row.dstintf);
+          return {
+            row,
+            src,
+            dst,
+            pair: `${src.join(", ") || "-"} \u2192 ${dst.join(", ") || "-"}`,
+            tr: tableRow(row, columns),
+            hiddenChanges: hiddenChangesByRow.get(row),
+            options: Object.entries(row)
+              .filter(([key]) => !optionSkip.has(key))
+              .map(([key, raw]) => ({ key, text: (/secret|passwd|password|psk|ddns-key/i.test(key) ? "[hidden]" : optionText(raw)).toLowerCase() })),
+          };
+        });
+        const groups = [];
+        const groupByPair = new Map();
+        for (const entry of entries) {
+          if (!groupByPair.has(entry.pair)) {
+            const group = { pair: entry.pair, entries: [], count: el("span", { className: "fui-pair-count" }), hiddenCount: el("span", { className: "fui-pair-hidden-count" }), tbody: el("tbody") };
+            group.header = el("tr", {
+              className: "fui-pair-header",
+              onclick: () => {
+                if (state.collapsed.has(group.pair)) state.collapsed.delete(group.pair);
+                else state.collapsed.add(group.pair);
+                apply();
+              },
+            }, el("td", { colspan: String(columns.length) }, [
+              el("span", { className: "fui-pair-caret", textContent: "\u25B8" }),
+              group.pair,
+              group.count,
+              group.hiddenCount,
+            ]));
+            groupByPair.set(entry.pair, group);
+            groups.push(group);
+          }
+          groupByPair.get(entry.pair).entries.push(entry);
+        }
+
+        let searchTimer = null;
+        const search = el("input", {
+          type: "search",
+          value: state.query,
+          placeholder: "Search all policy options... e.g. ac-monitor  nat=enable  \"vpn zugriff\"",
+          oninput: () => {
+            state.query = search.value;
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(apply, 60);
+          },
+          onkeydown: (event) => {
+            event.stopPropagation();
+            if (event.key !== "Escape") return;
+            search.value = "";
+            state.query = "";
+            apply();
+          },
+        });
+        const interfaceSelect = (label, list, stateKey) => {
+          const options = [...new Set(list)].sort((a, b) => a.localeCompare(b));
+          if (!options.includes(state[stateKey])) state[stateKey] = "";
+          return el("label", {}, [`${label} `, el("select", {
+            onchange: (event) => {
+              state[stateKey] = event.target.value;
+              apply();
+            },
+          }, [
+            el("option", { value: "", textContent: "All" }),
+            ...options.map((name) => el("option", { value: name, textContent: name, ...(state[stateKey] === name ? { selected: "" } : {}) })),
+          ])]);
+        };
+        const viewButtons = [["list", "List"], ["pair", "Interface Pair View"]].map(([view, label]) => el("button", {
+          type: "button",
+          dataset: { view },
+          onclick: () => {
+            state.view = view;
+            layout();
+          },
+        }, label));
+        const pairButtons = el("span", { className: "fui-segmented" }, [
+          el("button", { type: "button", onclick: () => { state.collapsed.clear(); apply(); } }, "Expand all"),
+          el("button", { type: "button", onclick: () => { groups.forEach((group) => state.collapsed.add(group.pair)); apply(); } }, "Collapse all"),
+        ]);
+        const policiesWithHiddenChanges = entries.filter((entry) => entry.hiddenChanges.length).length;
+        const nonDefaultToggle = el("label", {
+          className: "fui-nondefault-toggle",
+          title: hasDefaults ? "Show only policies with non-default values in options that are not visible in the FortiGate GUI" : "Default values are unavailable on this FortiOS build",
+        }, [
+          el("input", {
+            type: "checkbox",
+            ...(state.nonDefault ? { checked: "" } : {}),
+            ...(hasDefaults ? {} : { disabled: "" }),
+            onchange: (event) => {
+              state.nonDefault = event.target.checked;
+              apply();
+            },
+          }),
+          ` Find non-default values (${policiesWithHiddenChanges})`,
+        ]);
+        const counter = el("div", { className: "fui-meta" });
+        const empty = el("div", { className: "fui-empty", textContent: "No policies match the current search/filter." });
+        const policyTable = el("table", {}, el("thead", {}, el("tr", {}, columns.map((column) => el("th", { textContent: column.label })))));
+
+        function apply() {
+          const terms = parseQuery(state.query);
+          const words = queryWords(terms);
+          let shown = 0;
+          for (const entry of entries) {
+            const hits = new Set();
+            entry.tr.classList.toggle("fui-policy-hidden-changes", entry.hiddenChanges.length > 0);
+            entry.visible = (!state.nonDefault || entry.hiddenChanges.length > 0)
+              && (!state.srcintf || entry.src.includes(state.srcintf))
+              && (!state.dstintf || entry.dst.includes(state.dstintf))
+              && terms.every((term) => {
+                const matched = entry.options.filter((option) => termMatches(term, option.key, option.text, false));
+                matched.forEach((option) => hits.add(option.key));
+                return matched.length > 0;
+              });
+            if (!entry.visible) continue;
+            shown += 1;
+            const hiddenHits = [...hits].filter((key) => !visibleKeys.has(key));
+            optionSummaries.get(entry.row).textContent = hiddenHits.length ? `Show all options (match: ${hiddenHits.join(", ")})` : "Show all options";
+            highlight(entry.tr, words, "details");
+          }
+          for (const group of groups) {
+            const collapsed = state.view === "pair" && state.collapsed.has(group.pair);
+            const visible = group.entries.filter((entry) => entry.visible).length;
+            group.header.dataset.collapsed = String(collapsed);
+            group.header.style.display = visible ? "" : "none";
+            group.count.textContent = visible === group.entries.length ? `${visible}` : `${visible} of ${group.entries.length}`;
+            const hiddenPolicies = group.entries.filter((entry) => entry.visible && entry.hiddenChanges.length).length;
+            group.hiddenCount.textContent = hiddenPolicies ? `${hiddenPolicies} non-default` : "";
+            group.hiddenCount.style.display = hiddenPolicies ? "" : "none";
+            for (const entry of group.entries) entry.tr.style.display = entry.visible && !collapsed ? "" : "none";
+          }
+          viewButtons.forEach((button) => { button.dataset.active = String(button.dataset.view === state.view); });
+          pairButtons.style.display = state.view === "pair" ? "" : "none";
+          const pairCount = groups.filter((group) => group.entries.some((entry) => entry.visible)).length;
+          counter.textContent = `${shown} of ${rows.length} firewall policies shown, ${pairCount} of ${groups.length} interface pairs, ${policiesWithHiddenChanges} with non-default CLI-only options`;
+          empty.style.display = shown ? "none" : "";
+        }
+        function layout() {
+          policyTable.querySelectorAll("tbody").forEach((tbody) => tbody.remove());
+          if (state.view === "pair") {
+            for (const group of groups) {
+              group.tbody.replaceChildren(group.header, ...group.entries.map((entry) => entry.tr));
+              policyTable.appendChild(group.tbody);
+            }
+          } else {
+            policyTable.appendChild(el("tbody", {}, entries.map((entry) => entry.tr)));
+          }
+          apply();
+        }
+
+        page.appendChild(el("div", { className: "fui-policy-toolbar" }, [
+          search,
+          nonDefaultToggle,
+          el("span", { className: "fui-segmented" }, viewButtons),
+          interfaceSelect("Source", entries.flatMap((entry) => entry.src), "srcintf"),
+          interfaceSelect("Destination", entries.flatMap((entry) => entry.dst), "dstintf"),
+          pairButtons,
+        ]));
+        page.appendChild(counter);
+        page.appendChild(policyTable);
+        page.appendChild(empty);
+        layout();
+        setTimeout(() => search.focus(), 0);
       },
     },
     {
@@ -1123,10 +1700,90 @@
     anchor.before(menu);
   }
 
-  document.addEventListener("click", (event) => {
+  const policyEditId = () => {
+    const match = `${location.pathname}${location.hash}`.match(/firewall\/policy\/policy\/[^?#]*?edit\/(\d+)(?:[/?#]|$)/);
+    return match ? match[1] : null;
+  };
+  const policyFormHost = () => {
+    const root = document.getElementById("ng1-app") || document.body;
+    return Array.from(root.querySelectorAll("form"))
+      .filter((form) => form.offsetParent !== null)
+      .sort((a, b) => b.offsetHeight - a.offsetHeight)[0] || null;
+  };
+  const policyPanel = (policyId) => {
+    const body = el("div");
+    const status = el("span");
+    const load = async () => {
+      status.textContent = "Loading...";
+      try {
+        const [policyData, meta] = await Promise.all([
+          fetchJson(vdomUrl(`/api/v2/cmdb/firewall/policy/${encodeURIComponent(policyId)}`)),
+          policyMeta(getVdom()),
+        ]);
+        const policy = Array.isArray(policyData.results) ? policyData.results[0] : policyData.results;
+        if (!policy) throw new Error(`Policy ${policyId} was not found.`);
+        body.replaceChildren(policyOptionsView(policy, meta));
+        status.textContent = `Loaded ${new Date().toLocaleTimeString()} (saved config)`;
+      } catch (error) {
+        body.replaceChildren(el("div", { className: "fui-error", textContent: `Failed to load policy options.\n\n${error.message}` }));
+        status.textContent = "";
+      }
+    };
+    load();
+    return el("div", { id: ids.policyPanel }, el("details", { open: "" }, [
+      el("summary", { textContent: `Unhider: all options of policy ${policyId}` }),
+      el("div", { className: "fui-policy-panel-meta" }, [
+        el("button", { type: "button", onclick: load }, "Refresh"),
+        status,
+      ]),
+      body,
+    ]));
+  };
+  let policyPanelWait = 0;
+  const syncPolicyPanel = () => {
+    const policyId = document.getElementById(ids.app) ? null : policyEditId();
+    const existing = document.getElementById(ids.policyPanel);
+    if (!policyId) {
+      existing?.remove();
+      policyPanelWait = 0;
+      return;
+    }
+
+    const key = `${getVdom()}:${policyId}`;
+    if (existing?.dataset.key === key) return;
+
+    const host = policyFormHost();
+    if (!host && policyPanelWait < 3) {
+      policyPanelWait += 1;
+      return;
+    }
+
+    existing?.remove();
+    policyPanelWait = 0;
+    const panel = policyPanel(policyId);
+    panel.dataset.key = key;
+    if (host) {
+      host.after(panel);
+    } else {
+      panel.classList.add("fui-floating");
+      document.body.appendChild(panel);
+    }
+  };
+  const onDocumentClick = (event) => {
     if (!currentTool || event.target.closest(`#${ids.menu}`) || event.target.closest(`#${ids.app}`)) return;
     if (event.target.closest("nu-nav-entry,a.menu-label")) restoreOriginalUi();
-  }, true);
+  };
+
+  document.addEventListener("click", onDocumentClick, true);
+  const policyPanelTimer = setInterval(syncPolicyPanel, 1000);
+  window.__fortiuiUnhider = {
+    cleanup: () => {
+      clearInterval(policyPanelTimer);
+      document.removeEventListener("click", onDocumentClick, true);
+      document.getElementById(ids.policyPanel)?.remove();
+    },
+  };
 
   installMenu();
+  syncPolicyPanel();
 })();
