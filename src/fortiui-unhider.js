@@ -1,4 +1,4 @@
-(async function fortiUiToolsIntegratedPoc() {
+(async function fortiUiUnhider() {
   const ids = {
     menu: "fortiui-unhider-menu",
     submenu: "fortiui-unhider-submenu",
